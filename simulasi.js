@@ -1,0 +1,557 @@
+    document.addEventListener('DOMContentLoaded', function () {
+
+            /* ============ PENGATURAN CEPAT ============ */
+            const TAMPILKAN_BARIS_BEBAN_TETAP = true; // true = baris "Beban Tetap Admin" terlihat
+            const SERTAKAN_BEBAN_TETAP_DI_TOTAL =
+            true; // true = total = beban tetap + blok I+II+III (sesuai Excel)
+
+            const TARIF = [{
+                    no: 1,
+                    nama: 'Sosial Umum',
+                    tetap: 11000,
+                    t1: 3900,
+                    t2: 4700,
+                    t3: 5500
+                },
+                {
+                    no: 2,
+                    nama: 'Sosial Khusus C',
+                    tetap: 11000,
+                    t1: 4300,
+                    t2: 5200,
+                    t3: 6000
+                },
+                {
+                    no: 3,
+                    nama: 'Sosial Khusus B',
+                    tetap: 11000,
+                    t1: 4800,
+                    t2: 5700,
+                    t3: 6700
+                },
+                {
+                    no: 4,
+                    nama: 'Sosial Khusus A',
+                    tetap: 11000,
+                    t1: 5100,
+                    t2: 6200,
+                    t3: 7200
+                },
+                {
+                    no: 5,
+                    nama: 'Rumah Tangga D 1',
+                    tetap: 11000,
+                    t1: 4800,
+                    t2: 5700,
+                    t3: 6700
+                },
+                {
+                    no: 6,
+                    nama: 'Rumah Tangga D 2',
+                    tetap: 11000,
+                    t1: 4800,
+                    t2: 5700,
+                    t3: 6700
+                },
+                {
+                    no: 7,
+                    nama: 'Rumah Tangga D 3',
+                    tetap: 11000,
+                    t1: 4800,
+                    t2: 5700,
+                    t3: 6700
+                },
+                {
+                    no: 8,
+                    nama: 'Rumah Tangga C 1',
+                    tetap: 17000,
+                    t1: 5600,
+                    t2: 6800,
+                    t3: 7900
+                },
+                {
+                    no: 9,
+                    nama: 'Rumah Tangga C 2',
+                    tetap: 17000,
+                    t1: 6000,
+                    t2: 7200,
+                    t3: 8400
+                },
+                {
+                    no: 10,
+                    nama: 'Rumah Susun (C2)',
+                    tetap: 210000,
+                    t1: 6000,
+                    t2: 7200,
+                    t3: 8400
+                },
+                {
+                    no: 11,
+                    nama: 'Rumah Tangga C 3',
+                    tetap: 17000,
+                    t1: 6200,
+                    t2: 7400,
+                    t3: 8600
+                },
+                {
+                    no: 12,
+                    nama: 'Rumah Tangga B 1',
+                    tetap: 19500,
+                    t1: 6800,
+                    t2: 8200,
+                    t3: 9600
+                },
+                {
+                    no: 13,
+                    nama: 'Rumah Tangga B 2',
+                    tetap: 19500,
+                    t1: 7000,
+                    t2: 8400,
+                    t3: 9800
+                },
+                {
+                    no: 14,
+                    nama: 'Rumah Tangga B 3',
+                    tetap: 19500,
+                    t1: 7300,
+                    t2: 8800,
+                    t3: 10200
+                },
+                {
+                    no: 15,
+                    nama: 'Kantor B',
+                    tetap: 31000,
+                    t1: 6000,
+                    t2: 7200,
+                    t3: 8400
+                },
+                {
+                    no: 16,
+                    nama: 'Niaga Kecil',
+                    tetap: 35000,
+                    t1: 6000,
+                    t2: 7200,
+                    t3: 8400
+                },
+                {
+                    no: 17,
+                    nama: 'Industri Kecil',
+                    tetap: 120000,
+                    t1: 7200,
+                    t2: 8600,
+                    t3: 10100
+                },
+                {
+                    no: 18,
+                    nama: 'Rumah Tangga A 1',
+                    tetap: 21000,
+                    t1: 8900,
+                    t2: 10700,
+                    t3: 12400
+                },
+                {
+                    no: 19,
+                    nama: 'Rumah Tangga A 2',
+                    tetap: 21000,
+                    t1: 9200,
+                    t2: 11000,
+                    t3: 12800
+                },
+                {
+                    no: 20,
+                    nama: 'Rumah Tangga A 3',
+                    tetap: 21000,
+                    t1: 9500,
+                    t2: 11400,
+                    t3: 13400
+                },
+                {
+                    no: 21,
+                    nama: 'RD Pertamina (A3)',
+                    tetap: 210000,
+                    t1: 9500,
+                    t2: 11400,
+                    t3: 14300
+                },
+                {
+                    no: 22,
+                    nama: 'Kantor A',
+                    tetap: 31000,
+                    t1: 10200,
+                    t2: 12200,
+                    t3: 12400
+                },
+                {
+                    no: 23,
+                    nama: 'Niaga Menengah',
+                    tetap: 40000,
+                    t1: 8900,
+                    t2: 10700,
+                    t3: 15900
+                },
+                {
+                    no: 24,
+                    nama: 'Industri Menengah',
+                    tetap: 160000,
+                    t1: 11400,
+                    t2: 13700,
+                    t3: 17800
+                },
+                {
+                    no: 25,
+                    nama: 'Niaga Besar',
+                    tetap: 110000,
+                    t1: 12700,
+                    t2: 15300,
+                    t3: 19700
+                },
+                {
+                    no: 26,
+                    nama: 'Industri Besar',
+                    tetap: 260000,
+                    t1: 14100,
+                    t2: 16900,
+                    t3: 19700
+                },
+                {
+                    no: 27,
+                    nama: 'Industri Besar Khusus',
+                    tetap: 260000,
+                    t1: 15600,
+                    t2: 18700,
+                    t3: 21800
+                },
+                {
+                    no: 28,
+                    nama: 'Khusus B',
+                    tetap: 260000,
+                    t1: 19700,
+                    t2: 23600,
+                    t3: 27500
+                },
+                {
+                    no: 29,
+                    nama: 'Khusus A',
+                    tetap: 260000,
+                    t1: 41400,
+                    t2: 41400,
+                    t3: 41400
+                },
+                {
+                    no: 30,
+                    nama: 'Khusus A Niaga',
+                    tetap: 260000,
+                    t1: 41400,
+                    t2: 41400,
+                    t3: 41400
+                }
+            ];
+
+            const $ = id => document.getElementById(id);
+            const fmtRp = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+            const fmtNum = n => n.toLocaleString('id-ID', {
+                maximumFractionDigits: 2
+            });
+            const fmtDate = iso => new Date(iso).toLocaleString('id-ID', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            function hitung(t, m3) {
+                const b1 = Math.min(m3, 10),
+                    b2 = Math.max(0, Math.min(m3, 20) - 10),
+                    b3 = Math.max(0, m3 - 20);
+                const c1 = b1 * t.t1,
+                    c2 = b2 * t.t2,
+                    c3 = b3 * t.t3;
+                const tetap = SERTAKAN_BEBAN_TETAP_DI_TOTAL ? t.tetap : 0;
+                return {
+                    b1,
+                    b2,
+                    b3,
+                    c1,
+                    c2,
+                    c3,
+                    total: tetap + c1 + c2 + c3
+                };
+            }
+
+            function render() {
+                const t = TARIF.find(x => x.no == $('selectGol').value) || TARIF[0];
+                const m3 = Math.max(0, parseFloat($('inputPem').value) || 0);
+                const h = hitung(t, m3);
+                if ($('badgePem')) $('badgePem').textContent = fmtNum(m3) + ' m³';
+                const txt = fmtRp(h.total);
+                const totalEl = $('totalEl');
+                if (totalEl && totalEl.textContent !== txt) {
+                    totalEl.textContent = txt;
+                    const box = $('totalBox');
+                    if (box) {
+                        box.classList.remove('pulse');
+                        void box.offsetWidth;
+                        box.classList.add('pulse');
+                    }
+                }
+                if ($('noteEl')) $('noteEl').textContent = 'Berdasarkan pemakaian ' + fmtNum(m3) + ' m³';
+
+                // Baris Beban Tetap Admin (tampil / sembunyi sesuai pengaturan)
+                const rowTetap = $('rowTetap');
+                if (rowTetap) rowTetap.style.display = TAMPILKAN_BARIS_BEBAN_TETAP ? '' : 'none';
+                if ($('valTetap')) $('valTetap').textContent = fmtRp(t.tetap);
+
+                if ($('lbl1')) $('lbl1').innerHTML = 'Blok I (1–10 m³) <span class="text-secondary">· ' +
+                    fmtNum(h.b1) + ' m³ × ' + fmtRp(t.t1) + '</span>';
+                if ($('lbl2')) $('lbl2').innerHTML = 'Blok II (11–20 m³) <span class="text-secondary">· ' +
+                    fmtNum(h.b2) + ' m³ × ' + fmtRp(t.t2) + '</span>';
+                if ($('lbl3')) $('lbl3').innerHTML = 'Blok III (&gt;20 m³) <span class="text-secondary">· ' +
+                    fmtNum(h.b3) + ' m³ × ' + fmtRp(t.t3) + '</span>';
+                if ($('val1')) $('val1').textContent = fmtRp(h.c1);
+                if ($('val2')) $('val2').textContent = fmtRp(h.c2);
+                if ($('val3')) $('val3').textContent = fmtRp(h.c3);
+                if ($('infoTarif')) {
+                    $('infoTarif').innerHTML =
+                        '<span class="badge rounded-pill text-bg-secondary">Beban Tetap ' + fmtRp(t.tetap) +
+                        '</span>' +
+                        '<span class="badge rounded-pill text-bg-primary">1–10: ' + fmtRp(t.t1) + '</span>' +
+                        '<span class="badge rounded-pill text-bg-primary">11–20: ' + fmtRp(t.t2) + '</span>' +
+                        '<span class="badge rounded-pill text-bg-primary">&gt;20: ' + fmtRp(t.t3) + '</span>';
+                }
+            }
+
+            function groupOf(n) {
+                if (n.startsWith('Sosial')) return 'Sosial';
+                if (n.startsWith('Rumah')) return 'Rumah Tangga & Rusun';
+                if (n.startsWith('Niaga')) return 'Niaga';
+                if (n.startsWith('Kantor')) return 'Kantor';
+                if (n.startsWith('Industri')) return 'Industri';
+                return 'Khusus & Lainnya';
+            }
+
+            const selectGol = $('selectGol');
+            if (selectGol) {
+                const map = {};
+                TARIF.forEach(t => {
+                    const g = groupOf(t.nama);
+                    if (!map[g]) {
+                        map[g] = document.createElement('optgroup');
+                        map[g].label = g;
+                        selectGol.appendChild(map[g]);
+                    }
+                    map[g].appendChild(new Option(t.nama, t.no));
+                });
+                selectGol.value = '6';
+            }
+
+            const tbodyTarif = $('tbodyTarif');
+            if (tbodyTarif) {
+                tbodyTarif.innerHTML = TARIF.map(t =>
+                    '<tr><td>' + t.no + '</td><td>' + t.nama + '</td><td class="text-end">' + t.tetap
+                    .toLocaleString('id-ID') +
+                    '</td><td class="text-end">' + t.t1.toLocaleString('id-ID') +
+                    '</td><td class="text-end">' +
+                    t.t2.toLocaleString('id-ID') + '</td><td class="text-end">' + t.t3.toLocaleString(
+                        'id-ID') + '</td></tr>'
+                ).join('');
+            }
+
+            let hist = [];
+            try {
+                hist = JSON.parse(localStorage.getItem('pdam-riwayat') || '[]');
+            } catch (e) {
+                hist = [];
+            }
+
+            function renderHistory() {
+                const list = $('historyList');
+                const empty = $('emptyHist');
+                if (!list) return;
+                list.innerHTML = hist.map(h =>
+                    '<li class="list-group-item d-flex align-items-center gap-2 py-3 hist-item" data-id="' +
+                    h.id + '" role="button">' +
+                    '<div class="flex-grow-1"><div class="fw-semibold">' + h.nama + '</div>' +
+                    '<div class="small text-secondary">' + fmtNum(h.m3) + ' m³ · ' + fmtDate(h.waktu) +
+                    '</div></div>' +
+                    '<div class="fw-bold">' + fmtRp(h.total) + '</div>' +
+                    '<button class="btn btn-sm btn-outline-danger rounded-pill hist-del" data-id="' + h.id +
+                    '"><i class="bi bi-trash"></i></button></li>'
+                ).join('');
+                if (empty) empty.classList.toggle('d-none', hist.length > 0);
+                const b = $('badgeRiw');
+                if (b) {
+                    b.textContent = hist.length;
+                    b.classList.toggle('d-none', hist.length === 0);
+                }
+            }
+
+            const btnSimpan = $('btnSimpan');
+            if (btnSimpan) {
+                btnSimpan.onclick = () => {
+                    const t = TARIF.find(x => x.no == $('selectGol').value);
+                    const m3 = Math.max(0, parseFloat($('inputPem').value) || 0);
+                    hist.unshift({
+                        id: Date.now(),
+                        waktu: new Date().toISOString(),
+                        nama: t.nama,
+                        m3,
+                        total: hitung(t, m3).total
+                    });
+                    try {
+                        localStorage.setItem('pdam-riwayat', JSON.stringify(hist));
+                    } catch (e) {}
+                    renderHistory();
+                    toast('Tersimpan ke Riwayat ✓');
+                };
+            }
+
+            const historyList = $('historyList');
+            if (historyList) {
+                historyList.addEventListener('click', e => {
+                    const del = e.target.closest('.hist-del');
+                    if (del) {
+                        hist = hist.filter(h => h.id != del.dataset.id);
+                        try {
+                            localStorage.setItem('pdam-riwayat', JSON.stringify(hist));
+                        } catch (e) {}
+                        renderHistory();
+                        toast('Item dihapus');
+                        return;
+                    }
+                    const item = e.target.closest('.hist-item');
+                    if (item) {
+                        const h = hist.find(x => x.id == item.dataset.id);
+                        const tg = TARIF.find(t => t.nama === h.nama);
+                        if (tg && $('selectGol')) $('selectGol').value = tg.no;
+                        if ($('inputPem')) $('inputPem').value = h.m3;
+                        render();
+                        switchView('kal');
+                    }
+                });
+            }
+
+            const btnClear = $('btnClear');
+            if (btnClear) {
+                btnClear.onclick = () => {
+                    if (hist.length && confirm('Hapus semua riwayat?')) {
+                        hist = [];
+                        try {
+                            localStorage.setItem('pdam-riwayat', '[]');
+                        } catch (e) {}
+                        renderHistory();
+                        toast('Riwayat dikosongkan');
+                    }
+                };
+            }
+
+            const btnShare = $('btnShare');
+            if (btnShare) {
+                btnShare.onclick = async () => {
+                    const t = TARIF.find(x => x.no == $('selectGol').value);
+                    const m3 = Math.max(0, parseFloat($('inputPem').value) || 0);
+                    const h = hitung(t, m3);
+                    let text = '*KALKULATOR PDAM TIRTA WIJAYA*\nGolongan: ' + t.nama + '\nPemakaian: ' +
+                        fmtNum(m3) + ' m³\n\n';
+                    if (SERTAKAN_BEBAN_TETAP_DI_TOTAL) text += 'Beban Tetap: ' + fmtRp(t.tetap) + '\n';
+                    text += 'Blok I (1–10 m³): ' + fmtRp(h.c1) +
+                        '\nBlok II (11–20 m³): ' + fmtRp(h.c2) + '\nBlok III (>20 m³): ' + fmtRp(h.c3) +
+                        '\n*TOTAL: ' + fmtRp(h.total) + '*\n\ncreated with 💖 by T.K';
+                    if (navigator.share) {
+                        try {
+                            await navigator.share({
+                                title: 'Kalkulator PDAM',
+                                text
+                            });
+                            return;
+                        } catch (e) {
+                            if (e.name === 'AbortError') return;
+                        }
+                    }
+                    try {
+                        await navigator.clipboard.writeText(text);
+                        toast('Ringkasan disalin ke clipboard 📋');
+                    } catch (e) {
+                        toast('Tidak dapat menyalin teks');
+                    }
+                };
+            }
+
+            function switchView(v) {
+                const vk = $('viewKal'),
+                    vr = $('viewRiw');
+                if (vk) vk.classList.toggle('d-none', v !== 'kal');
+                if (vr) vr.classList.toggle('d-none', v !== 'riw');
+                const nk = $('navKal'),
+                    nr = $('navRiw');
+                if (nk) nk.classList.toggle('active', v === 'kal');
+                if (nr) nr.classList.toggle('active', v === 'riw');
+                window.scrollTo({
+                    top: 0
+                });
+            }
+
+            const navKal = $('navKal'),
+                navRiw = $('navRiw');
+            if (navKal) navKal.onclick = () => switchView('kal');
+            if (navRiw) navRiw.onclick = () => {
+                renderHistory();
+                switchView('riw');
+            };
+
+            function setTheme(t) {
+                document.documentElement.setAttribute('data-bs-theme', t);
+                try {
+                    localStorage.setItem('pdam-theme', t);
+                } catch (e) {}
+                const btn = $('themeToggle');
+                if (btn) btn.innerHTML = t === 'dark' ? '<i class="bi bi-sun-fill"></i>' :
+                    '<i class="bi bi-moon-stars-fill"></i>';
+                const meta = document.querySelector('meta[name=theme-color]');
+                if (meta) meta.setAttribute('content', t === 'dark' ? '#0d1117' : '#f8f9fa');
+            }
+            let savedTheme = 'dark';
+            try {
+                savedTheme = localStorage.getItem('pdam-theme') || 'dark';
+            } catch (e) {}
+            setTheme(savedTheme);
+
+            const themeToggle = $('themeToggle');
+            if (themeToggle) {
+                themeToggle.onclick = () => setTheme(document.documentElement.getAttribute('data-bs-theme') ===
+                    'dark' ? 'light' : 'dark');
+            }
+
+            let bsToast;
+            try {
+                bsToast = new bootstrap.Toast($('toast'), {
+                    delay: 2200
+                });
+            } catch (e) {
+                bsToast = null;
+            }
+
+            function toast(msg) {
+                const el = $('toastMsg');
+                if (el) el.textContent = msg;
+                if (bsToast) try {
+                    bsToast.show();
+                } catch (e) {
+                    alert(msg);
+                }
+            }
+
+            if (selectGol) selectGol.addEventListener('change', render);
+            const inputPem = $('inputPem');
+            if (inputPem) inputPem.addEventListener('input', render);
+
+            const collapseTarif = $('collapseTarif'),
+                btnTarif = $('btnTarif');
+            if (collapseTarif && btnTarif) {
+                collapseTarif.addEventListener('show.bs.collapse', () => btnTarif.textContent = 'Sembunyikan');
+                collapseTarif.addEventListener('hide.bs.collapse', () => btnTarif.textContent = 'Tampilkan');
+            }
+
+            render();
+            renderHistory();
+        });
