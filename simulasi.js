@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const TAMPILKAN_BARIS_BEBAN_TETAP = true; // true = baris "Beban Tetap Admin" terlihat
     const SERTAKAN_BEBAN_TETAP_DI_TOTAL = true; // true = total = beban tetap + blok I+II+III (sesuai Excel)
 
+
     const TARIF = [
         {
             no: 1,
