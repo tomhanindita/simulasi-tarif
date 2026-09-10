@@ -456,7 +456,8 @@
                     if (SERTAKAN_BEBAN_TETAP_DI_TOTAL) text += 'Beban Tetap: ' + fmtRp(t.tetap) + '\n';
                     text += 'Blok I (1–10 m³): ' + fmtRp(h.c1) +
                         '\nBlok II (11–20 m³): ' + fmtRp(h.c2) + '\nBlok III (>20 m³): ' + fmtRp(h.c3) +
-                        '\n*TOTAL: ' + fmtRp(h.total)*;
+
+                        '\n*TOTAL: ' + fmtRp(h.total) + '*\n\n' ;
                     if (navigator.share) {
                         try {
                             await navigator.share({
